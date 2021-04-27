@@ -75,7 +75,7 @@ conn.once('open', () => {
         })
     })
 
-    //get individual files by filename
+    //get individual files info in JSON by filename
     app.get('/files/:filename', (req, res) => {
         gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
             if (!file) {
@@ -100,6 +100,16 @@ conn.once('open', () => {
             } else {
                 return res.status(401).json({ err: 'File is not an image' })
             }
+        })
+    })
+
+    //Delete a file by id
+    app.delete('/files/:id', (req, res) => {
+        gfs.remove({_id: req.params.id, root: 'uploads'}, (err, gridStore) => {
+            if(err) {
+                return res.status(404).json({err: err})
+            }
+            res.redirect('/')
         })
     })
 })

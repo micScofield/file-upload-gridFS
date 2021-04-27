@@ -29,19 +29,32 @@
         <button type="submit" class="btn">Submit</button>
       </form>
       <br />
-      <% if(files) { %> <% files.reverse().forEach(file => { %> <% if(file.isImage) { %>
-      <div class="row">
-        <div class="col s2 m4">
-          <div class="card">
-            <div class="card-image">
-              <img src="images/<%= file.filename %>" alt="From MongoDB" />
+
+      <% if(files) { %>
+        <% files.reverse().forEach(file => { %>
+          <div class="row">
+            <div class="col m4">
+              <div class="card">
+                <% if(file.isImage) { %>
+                  <div class="card-image">
+                    <img src="images/<%= file.filename %>" alt="From MongoDB" />
+                  </div>
+                <% } else { %>
+                  <div>
+                    <p><%= file.filename %></p>
+                  </div>
+                <% } %>
+                <form action="/files/<%= file._id %>?_method=DELETE" method="POST">
+                  <button class="btn red" style="margin: 0.5rem 0 0 0; width: 100%;">Delete</button>
+                </form>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <% } else { %> <%= file.filename %> <% } %> <% }) %> <% } else { %>
-      <p>No files to show</p>
+        <% }) %>
+      <% } else { %>
+        <h3>No files to show</h3>
       <% } %>
+
     </div>
 
     <!-- Jquery CDN 3 minified to use materialize JS -->
